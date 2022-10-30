@@ -1,0 +1,71 @@
+@import './variables.scss';
+
+html, body{
+  margin: 0;
+  padding: $pad;
+  height: 100%;
+}
+
+// .container {
+//   max-width: 1200px;
+//   height: 700px;
+//   overflow: auto;
+// }
+
+/*
+  Classes for each score type
+*/
+.cell-score-0 {
+  background-color: $score_0_light;
+  color: $score_0_dark;
+}
+
+.cell-score-1 {
+  background-color: $score_1_light;
+  color: $score_1_dark;
+}
+
+.cell-score-2 {
+  background-color: $score_2_light;
+  color: $score_2_dark;
+}
+
+.cell-score-3 {
+  background-color: $score_3_light;
+  color: $score_3_dark;
+}
+
+.cell-score-4 {
+  background-color: $score_4_light;
+  color: $score_4_dark;
+}
+
+.cell-score-5 {
+  background-color: $score_5_light;
+  color: $score_5_dark;
+}
+
+.cell-score-6 {
+  background-color: $score_6_light;
+  color: $score_6_dark;
+}
+
+.cell-score-7 {
+  background-color: $score_7_light;
+  color: $score_7_dark;
+}
+
+.cell-score-8 {
+  background-color: $score_8_light;
+  color: $score_8_dark;
+}
+
+.cell-score-9 {
+  background-color: $score_9_light;
+  color: $score_9_dark;
+}
+
+.cell-score-10 {
+  background-color: $score_10_light;
+  color: $score_10_dark;
+}
