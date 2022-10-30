@@ -12,8 +12,8 @@ const getters = {
   rows: (state, getters, rootState, rootGetters) => {
     return state.scores.map(item => {
       /**
-       * Find the question in the questions store using the id provided in the scores json 
-       * Adding it to the new array which will contai: question_id, questionn and scores 
+       * Find the question in the questions store using the id provided in the scores.json 
+       * Adding it to the new array which will contain: question_id, question and scores 
        * The scores are flattened ( [[]] => [] )
        * The values are transformed to display only one decimal
        */

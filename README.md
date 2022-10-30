@@ -26,3 +26,5 @@ Technical information:
 - vuex for store management 
 - BEM structure 
 - SASS according to the BEM structure
+- node -v: 16.14.2
+- npn -v: 8.5.0

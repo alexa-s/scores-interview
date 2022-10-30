@@ -35,12 +35,12 @@
           :key="score.filter_id" 
           class="scores__cell"
         > 
-          <div 
+          <span 
             class="scores__cell--colors" 
             :class="getScoreClass(score.value)"
           >
             {{ score.value }}
-          </div>
+          </span>
         </td>
       </tr>
     </tbody>
@@ -71,7 +71,9 @@ export default {
     }
   },
   mounted() {
-    this.getFixedHeaderAndColumn();
+    this.$el.addEventListener('scroll', (event) => {
+      this.getFixedHeaderAndColumn(event);
+    });
   },
   computed: {
     filteredRows() {
@@ -81,6 +83,11 @@ export default {
     cRows() {
       return (this.filter === '') ? this.scoreRows : this.filteredRows;
     }
+  },
+  beforeDestroy() {
+    this.$el.removeEventListener('scroll', (event) => {
+      this.getFixedHeaderAndColumn(event);
+    });
   },
   methods: {
     getScoreClass(value) {
@@ -99,24 +106,23 @@ export default {
         }
       }
     },
-    getFixedHeaderAndColumn() {
+    getFixedHeaderAndColumn(event) {
       /**
        * To replace the behaviour of position sticky to accomodate IE11
        */
-      const table = document.getElementsByClassName('scores');
+      event.preventDefault();
+      let header = this.$el.querySelector('thead');                        
+      let firstHeadColumn = this.$el.querySelector('.scores__head:first-child');
+      let firstBodyColumn = this.$el.querySelectorAll('.scores__cell:first-child');
 
-      table[0].addEventListener('scroll', (event) => {
-        let header = this.$el.querySelector('thead');                        
-        let firstHeadColumn = this.$el.querySelector('.scores__head:first-child');
-        let firstBodyColumn = this.$el.querySelectorAll('.scores__cell:first-child');
+      header.setAttribute('style',`top: ${event.target.scrollTop}px;`);
+      firstHeadColumn.setAttribute('style',`left: ${event.target.scrollLeft}px;`);
 
-        header.setAttribute('style',`top: ${event.target.scrollTop}px;`);
-        firstHeadColumn.setAttribute('style',`left: ${event.target.scrollLeft}px;`);
-
-        firstBodyColumn.forEach((column, index) => {
-          const backgroundColor = this.getBackgroundColor(index);
-          column.setAttribute('style', `left: ${event.target.scrollLeft}px; background-color: ${backgroundColor}`);
-        });
+      firstBodyColumn.forEach((column, index) => {
+        const backgroundColor = this.getBackgroundColor(index);
+        column.setAttribute('style', `left: ${event.target.scrollLeft}px; 
+          background-color: ${backgroundColor};`
+        );
       });
     },
     getBackgroundColor(index) {
@@ -134,36 +140,36 @@ export default {
   @import '../style/variables';
 
   .scores {
-    border-collapse: collapse;
     position: relative;
     display: block;
-    max-width: 1300px;
-    width: 100%;
+    max-width: 1700px;
     height: 600px;
     overflow: scroll;
+    border-spacing: 0;
+    border-top: 1px solid $border-color;
+    border-right: 1px solid $border-color;
 
     &__thead {
       position: relative;
       display: block;
+      width: auto;
       overflow: visible;
-      z-index: 50;
-      background-color: $white;
     }
 
     &__head {
       white-space: nowrap;
+      word-break: break-word;
+      background-color: $white;
 
       &:nth-child(1) {
         position: relative;
-        top: -1px;
-        display: block;
+        display: table-cell;
         z-index: 100;
-        width: 300px;
+        min-width: 300px;
         text-align: left;
         background-color: $white;
 
         input {
-          width: 100%;
           height: $pad;
         }
       }
@@ -185,28 +191,30 @@ export default {
 
     &__head,
     &__cell {
-      border: 1px solid $border-color;
+      min-width: 100px;
       padding: 2rem;
-      width: 100px;
       color: $text-grey;
       font-weight: 300;
+      border-left: 1px solid $border-color;
+      border-bottom: 1px solid $border-color;
     }
 
     &__cell {
+      display: table-cell;
+      border-top: none;
       text-align: center;
 
-      div {
+      span {
         font-weight: 600;
       }
 
       &:nth-child(1) {
         position: relative;
-        top: -1px;
-        border-bottom: none;
-        display: block;
-        width: 300px;
-        text-align: left;
+        display: table-cell;
+        min-width: 300px;
+        max-width: 300px;
         z-index: 10;
+        text-align: left;
       }
 
       &--colors {
